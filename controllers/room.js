@@ -51,6 +51,8 @@ export const deleteRoom = async (req, res, next) => {
     }
 }
 
+
+
 export const getRoom = async (req, res, next) => {
 
     try {
@@ -60,6 +62,8 @@ export const getRoom = async (req, res, next) => {
         next(err);
     }
 }
+
+
 export const getRooms = async (req, res, next) => {
 
     try {

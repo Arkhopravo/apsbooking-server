@@ -11,6 +11,8 @@ export const createHotel = async (req, res, next) => {
     next(err);
   }
 };
+
+
 export const updateHotel = async (req, res, next) => {
   try {
     const updatedHotel = await Hotel.findByIdAndUpdate(
@@ -23,6 +25,8 @@ export const updateHotel = async (req, res, next) => {
     next(err);
   }
 };
+
+
 export const deleteHotel = async (req, res, next) => {
   try {
     await Hotel.findByIdAndDelete(req.params.id);
@@ -31,6 +35,8 @@ export const deleteHotel = async (req, res, next) => {
     next(err);
   }
 };
+
+
 export const getHotel = async (req, res, next) => {
   try {
     const hotel = await Hotel.findById(req.params.id);
@@ -39,6 +45,8 @@ export const getHotel = async (req, res, next) => {
     next(err);
   }
 };
+
+
 export const getHotels = async (req, res, next) => {
   const { min, max, ...others } = req.query;
   try {
@@ -51,19 +59,55 @@ export const getHotels = async (req, res, next) => {
     next(err);
   }
 };
+
+
+// export const countByCity = async (req, res, next) => {
+//   const cities = req.query.city.split(",");
+//   try {
+//     const list = await Promise.all(
+//       cities.map((city) => {
+//         return Hotel.countDocuments({ city: city });
+//       })
+//     );
+//     res.status(200).json(list);
+//   } catch (err) {
+//     next(err);
+//   }
+// };
+
+
 export const countByCity = async (req, res, next) => {
-  const cities = req.query.cities.split(",");
   try {
-    const list = await Promise.all(
-      cities.map((city) => {
-        return Hotel.countDocuments({ city: city });
+    // Check if the 'cities' query parameter exists and is not empty
+    if (!req.query.cities || typeof req.query.cities !== 'string') {
+      return res.status(400).json({ message: 'Cities parameter is missing or invalid' });
+    }
+
+    // Split the 'cities' query parameter into an array
+    const cities = req.query.cities.split(",");
+
+    // If the 'cities' parameter is empty after splitting, return an empty array
+    if (cities.length === 0 || cities[0] === '') {
+      return res.status(400).json({ message: 'Cities parameter is empty' });
+    }
+
+    // Use Promise.all to asynchronously count documents for each city
+    const counts = await Promise.all(
+      cities.map(async (city) => {
+        const count = await Hotel.countDocuments({ city: city.trim() }); // Trim whitespace from city name
+        return { city: city, count: count };
       })
     );
-    res.status(200).json(list);
+
+    // Return the counts as JSON response
+    res.status(200).json(counts);
   } catch (err) {
+    // Pass any errors to the error handling middleware
     next(err);
   }
 };
+
+
 export const countByType = async (req, res, next) => {
   try {
     const hotelCount = await Hotel.countDocuments({ type: "hotel" });
@@ -83,6 +127,7 @@ export const countByType = async (req, res, next) => {
     next(err);
   }
 };
+
 
 export const getHotelRooms = async (req, res, next) => {
   try {

@@ -3,6 +3,9 @@ import bcrypt from "bcryptjs";
 import { createError } from "../utils/error.js";
 import jwt from "jsonwebtoken";
 
+// Load JWT secret from environment variable or use a secure default value
+const JWT_SECRET = process.env.JWT_SECRET || 'default_secret';
+
 export const register = async (req, res, next) => {
   try {
     const salt = bcrypt.genSaltSync(10);
@@ -19,12 +22,13 @@ export const register = async (req, res, next) => {
     next(err);
   }
 };
+
 export const login = async (req, res, next) => {
   try {
     const user = await User.findOne({ username: req.body.username });
     if (!user) return next(createError(404, "User not found!"));
 
-    const isPasswordCorrect = await bcrypt.compare(
+    const isPasswordCorrect = bcrypt.compareSync(
       req.body.password,
       user.password
     );
@@ -33,16 +37,18 @@ export const login = async (req, res, next) => {
 
     const token = jwt.sign(
       { id: user._id, isAdmin: user.isAdmin },
-      process.env.JWT
+      JWT_SECRET
     );
 
     const { password, isAdmin, ...otherDetails } = user._doc;
-    res
-      .cookie("access_token", token, {
-        httpOnly: true,
-      })
-      .status(200)
-      .json({ details: { ...otherDetails }, isAdmin });
+
+    // Set the JWT token as a cookie in the response
+    res.cookie("access_token", token, {
+      httpOnly: true,
+    });
+
+    // Send user details and isAdmin in response body
+    res.status(200).json({ details: { ...otherDetails }, isAdmin });
   } catch (err) {
     next(err);
   }

@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken"
 import { createError } from "./error.js"
 
+const JWT_SECRET = process.env.JWT_SECRET || 'default_secret';
 
 export const verifyToken = (req, res,next) => {
     const token = req.cookies.access_token;
@@ -8,7 +9,7 @@ export const verifyToken = (req, res,next) => {
         return next(createError(401, "You are not authenticated!."))
     }
 
-    jwt.verify(token, process.env.JWT,(err, user) =>{
+    jwt.verify(token, JWT_SECRET,(err, user) =>{
         if (err) return next(createError(403, "Token does not valid!"));
         req.user = user;
         next()

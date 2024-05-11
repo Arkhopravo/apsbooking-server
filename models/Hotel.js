@@ -28,6 +28,7 @@ const HotelSchema = new mongoose.Schema({
     },
     photos: {
         type: [String],
+        default:'https://static.leonardo-hotels.com/image/leonardohotelbucharestcitycenter_room_comfortdouble2_2022_4000x2600_7e18f254bc75491965d36cc312e8111f_1200x780_mobile_3.jpeg',
         
     },
     desc: {
