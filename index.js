@@ -46,7 +46,7 @@ import {connect} from 'mongoose'
 const app = express();
 
 
-const PORT = process.env.PORT || 8800;
+const PORT = 8800;
 
 // mongodb connection
 connect(
