@@ -46,7 +46,7 @@ import {connect} from 'mongoose'
 const app = express();
 
 
-const port = process.env.PORT || 8800;
+const PORT = process.env.PORT || 8800;
 
 // mongodb connection
 connect(
@@ -96,7 +96,7 @@ app.get('/test', (req, res) => {
 
 
 
-app.listen(port, ()=> {
+app.listen(PORT, ()=> {
   
   console.log("Connected to backend.!");
 })
