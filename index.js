@@ -46,6 +46,7 @@ import {connect} from 'mongoose'
 const app = express();
 
 
+const port = process.env.PORT || 8800;
 
 // mongodb connection
 connect(
@@ -78,7 +79,7 @@ app.use(cookieParser());
 
 app.use(cors(
   {
-    origin: ['http://localhost:3000']
+    origin: ['http://localhost:3000', 'https://apsbooking.onrender.com']
   }
 ));
 
@@ -95,7 +96,7 @@ app.get('/test', (req, res) => {
 
 
 
-app.listen(8800, ()=> {
+app.listen(port, ()=> {
   
   console.log("Connected to backend.!");
 })
