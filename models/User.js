@@ -23,7 +23,7 @@ const UserSchema = new mongoose.Schema({
     },
    picture: {
     type: String,
-    default: '',
+    default: 'https://img.freepik.com/free-photo/3d-render-boy-holding-camera-his-hands_1142-38602.jpg?size=338&ext=jpg&ga=GA1.1.1224184972.1711843200&semt=ais',
    },
    mobile: {
     type: String,
