@@ -1,0 +1,1 @@
+export const MONGO_URL = 'mongodb+srv://arkhopsarkar:266QEz7eoXkEuW26@learning-server.n74ppfv.mongodb.net/?retryWrites=true&w=majority&appName=learning-server'

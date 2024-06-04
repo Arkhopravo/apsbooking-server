@@ -3,37 +3,6 @@ import dotenv from "dotenv";
 dotenv.config();
 
 
-// const connect = async () => {
-//     try {
-//         await mongoose.connect(
-//           'mongodb://Arkhopravo:Arkhopravo@cluster0.jblawby.mongodb.net/booking?retryWrites=true&w=majority'
-//         );
-//         console.log("Connected to mongoDB");
-//       } catch (error) {
-//         throw error;
-//       };
-    
-// }
-
-
-// mongoose.connect(
-//   'mongodb://Arkhopravo:Arkhopravo@cluster0.jblawby.mongodb.net/booking?retryWrites=true&w=majority'
-//   // 'mongodb+srv://arkhopsarkar:4wimyFN5FMTgEaUf@cluster0.2au5ams.mongodb.net/?retryWrites=true&w=majority'
-//   // 'mongodb+srv://arkhopsarkar:4wimyFN5FMTgEaUf@cluster0.2au5ams.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
-//   )
-//   .then(() => {
-//       console.log("mongodb connected with the server!");
-//   })
-//   .catch(err => {
-//       console.log(err);
-      
-//   })
-
-
-
-
-
-
 import express from "express";
 import authRoute from "./routes/auth.js"
 import hotelsRoute from './routes/hotels.js'
@@ -42,6 +11,7 @@ import roomsRoute from './routes/rooms.js'
 import cookieParser from "cookie-parser"
 import cors from 'cors'
 import {connect} from 'mongoose'
+import { MONGO_URL } from "./config.js";
 
 const app = express();
 
@@ -50,7 +20,7 @@ const PORT = 8800;
 
 // mongodb connection
 connect(
-  process.env.MONGO_DB
+  MONGO_URL
   )
   .then(() => {
       console.log("mongodb connected with the server!");
